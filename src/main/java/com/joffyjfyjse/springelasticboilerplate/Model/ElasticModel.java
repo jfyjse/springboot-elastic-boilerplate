@@ -1,4 +1,5 @@
 package com.joffyjfyjse.springelasticboilerplate.Model;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;

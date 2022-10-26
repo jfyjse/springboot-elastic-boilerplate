@@ -1,4 +1,5 @@
-package com.joffyjfyjse.springelasticboilerplate;
+package com.joffyjfyjse.springelasticboilerplate.Scheduler;
+
 import com.joffyjfyjse.springelasticboilerplate.Model.ElasticModel;
 import com.joffyjfyjse.springelasticboilerplate.Repository.ElasticRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Component;
 public class ScheduleTestDataSend {
     @Autowired
     ElasticRepo elasticRepo;
+
     @Scheduled(fixedDelay = 10000)
     public void saveElasticData() {
         try {
@@ -24,8 +26,7 @@ public class ScheduleTestDataSend {
 
 
         } catch (Exception ex) {
-            ex.printStackTrace();
-            System.out.println("failed to create mesh type 1");
+            System.out.println("disconnected from elasticsearch !! \nfailed to add data to the index !");
         }
     }
 }

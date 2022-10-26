@@ -1,4 +1,5 @@
 package com.joffyjfyjse.springelasticboilerplate.Configuratition;
+
 import org.apache.http.Header;
 import org.apache.http.HttpHeaders;
 import org.apache.http.HttpHost;
@@ -14,6 +15,7 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.ssl.SSLContexts;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestClientBuilder;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,6 +23,17 @@ import javax.net.ssl.SSLContext;
 
 @Configuration
 public class Config {
+    @Value("${elasticsearch.username}")
+    private String username;
+
+    @Value("${elasticsearch.password}")
+    private String password;
+
+    @Value("${elasticsearch.host}")
+    private String host;
+
+    @Value("${elasticsearch.port}")
+    private int port;
 
     @Bean
     public RestClientBuilder elasticsearchClient() throws Exception {
@@ -28,13 +41,13 @@ public class Config {
         try {
             credentialsProvider = new BasicCredentialsProvider();
             credentialsProvider.setCredentials(AuthScope.ANY,
-                    new UsernamePasswordCredentials("elastic", "qlqQ1bpo0FJk1wLrhhKd"));
+                    new UsernamePasswordCredentials(username, password));
             SSLContextBuilder sslBuilder = SSLContexts.custom()
                     .loadTrustMaterial(null, (x509Certificates, s) -> true);
             final SSLContext sslContext = sslBuilder.build();
 
             RestClientBuilder builder = RestClient.builder(
-                            new HttpHost("localhost", 9200, "https"))
+                            new HttpHost(host, port, "https"))
                     .setHttpClientConfigCallback(new RestClientBuilder.HttpClientConfigCallback() {
                         @Override
                         public HttpAsyncClientBuilder customizeHttpClient(HttpAsyncClientBuilder httpAsyncClientBuilder) {
